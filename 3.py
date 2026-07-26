@@ -20,6 +20,26 @@ plt.show()
 
 # Write a program to implement the A* Algorithm
 
+def astar(start, goal, graph, h):
+    open_list = [(0, start, [start])]
+    visited = set()
+
+    while open_list:
+        open_list.sort()
+        cost, node, path = open_list.pop(0)
+
+        if node == goal:
+            return path, cost
+
+        if node not in visited:
+            visited.add(node)
+
+            for nbr, c in graph.get(node, []):
+                if nbr not in visited:
+                    open_list.append((cost + c + h[nbr], nbr, path + [nbr]))
+
+    return None, None
+
 graph = {}
 
 n = int(input("Enter number of nodes: "))
@@ -46,29 +66,7 @@ for node in graph:
 start = input("\nEnter Start Node: ")
 goal = input("Enter Goal Node: ")
 
-
-def astar(start, goal):
-    open_list = [(0, start, [start])]
-    visited = set()
-
-    while open_list:
-        open_list.sort()
-        cost, node, path = open_list.pop(0)
-
-        if node == goal:
-            return path, cost
-
-        if node not in visited:
-            visited.add(node)
-
-            for nbr, c in graph.get(node, []):
-                if nbr not in visited:
-                    open_list.append((cost + c + h[nbr], nbr, path + [nbr]))
-
-    return None, None
-
-
-path, cost = astar(start, goal)
+path, cost = astar(start, goal, graph, h)
 
 if path:
     print("\nPath:", path)

@@ -15,31 +15,45 @@ plt.show()
 
 # Write a program to implement Alpha-beta pruning algorithm.
 
-def alphabeta(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
-    if depth == 3:
+
+def alphabeta(depth, nodeIndex, maximizingPlayer, values, alpha, beta, maxDepth):
+    # Base case
+    if depth == maxDepth:
         return values[nodeIndex]
 
     if maximizingPlayer:
         best = float('-inf')
+
         for i in range(2):
-            val = alphabeta(depth + 1, nodeIndex * 2 + i, False, values, alpha, beta)
+            val = alphabeta(depth + 1, nodeIndex * 2 + i,
+                            False, values, alpha, beta, maxDepth)
+
             best = max(best, val)
             alpha = max(alpha, best)
+
+            # Alpha-Beta Pruning
             if alpha >= beta:
                 break
+
         return best
+
     else:
         best = float('inf')
+
         for i in range(2):
-            val = alphabeta(depth + 1, nodeIndex * 2 + i, True, values, alpha, beta)
+            val = alphabeta(depth + 1, nodeIndex * 2 + i,
+                            True, values, alpha, beta, maxDepth)
+
             best = min(best, val)
             beta = min(beta, best)
+
+            # Alpha-Beta Pruning
             if alpha >= beta:
                 break
+
         return best
 
 
-# Example tree with depth 3 and 8 terminal nodes
 # values = [3, 5, 2, 9, 12, 5, 23, 23]
 
 # print("Enter the 8 terminal node values:")
@@ -48,11 +62,25 @@ def alphabeta(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
 #     value = int(input(f"Value {i+1}: "))
 #     values.append(value)
 
-values = list(map(int, input("Enter the 8 terminal node values (space-separated): ").split()))
+maxDepth = int(input("Enter the depth of the tree: "))
 
-result = alphabeta(0, 0, True, values, float('-inf'), float('inf'))
-print("The optimal value is:", result)
+numLeaves = 2 ** maxDepth
+
+print(f"Enter {numLeaves} terminal node values:")
+values = list(map(int, input().split()))
+
+if len(values) != numLeaves:
+    print(f"Error: You must enter exactly {numLeaves} values.")
+else:
+    result = alphabeta(0, 0, True, values,
+                       float('-inf'), float('inf'), maxDepth)
+
+    print("The optimal value is:", result)
 
 
 
 
+# User Input
+
+
+# Validate input

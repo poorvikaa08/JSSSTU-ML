@@ -9,18 +9,20 @@ data = pd.read_csv("ToyotaCorolla.csv")
 sns.heatmap(data[["Price","KM","Doors", "Weight"]].corr(),cmap='jet',annot=True)
 plt.show()
 
+
 # Write a program to implement Min-Max Algorithm.
 
-def minmax(depth, nodeIndex, maximizingPlayer, values):
-    if depth == 3:
+def minmax(depth, nodeIndex, isMaxPlayer, values, maxDepth):
+    # Base case: reached terminal node
+    if depth == maxDepth:
         return values[nodeIndex]
 
-    if maximizingPlayer:
+    if isMaxPlayer:
         best = float('-inf')
 
         for i in range(2):
             val = minmax(depth + 1, nodeIndex * 2 + i,
-                         False, values)
+                         False, values, maxDepth)
             best = max(best, val)
 
         return best
@@ -30,17 +32,27 @@ def minmax(depth, nodeIndex, maximizingPlayer, values):
 
         for i in range(2):
             val = minmax(depth + 1, nodeIndex * 2 + i,
-                         True, values)
+                         True, values, maxDepth)
             best = min(best, val)
 
         return best
 
 
-# values = [3, 5, 2, 9, 12, 5, 23, 23]
 # User Input
-values = list(map(int, input("Enter the 8 terminal node values: ").replace(',', ' ').split()))
+maxDepth = int(input("Enter the depth of the tree: "))
 
-result = minmax(0, 0, True, values)
+numLeaves = 2 ** maxDepth
 
-print("Optimal Value:", result)
+print(f"Enter {numLeaves} terminal node values:")
+values = list(map(int, input().replace(',', ' ').split()))
+
+# values = list(map(int, input().split()))
+# values = [3, 5, 2, 9, 12, 5, 23, 23]
+
+# Validate input
+if len(values) != numLeaves:
+    print(f"Error: You must enter exactly {numLeaves} values.")
+else:
+    result = minmax(0, 0, True, values, maxDepth)
+    print("Optimal Value:", result)
 
