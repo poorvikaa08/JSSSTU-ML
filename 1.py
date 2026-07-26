@@ -1,4 +1,4 @@
-#Visualize the n-dimensional data using Scatter plots. 
+# Visualize the n-dimensional data using Scatter plots. 
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -17,25 +17,34 @@ plt.show()
 
 
 
-#Write a program to implement Hill Climbing Algorithm.
+# Write a program to implement Hill Climbing Algorithm.
 
-import random
+# Maximize a function f(x) = -(x - 5) ** 2 + 25 using hill climbing algorithm.
 
 def objective(x):
-    return -x**2 + 5
+    return -(x - 5) ** 2 + 25
 
-def hill_climbing(start, step, iterations):
-    x = start
+def hill_climbing(start):
+    current = start
+    i = 1
+    
+    while True:
+        left = current - 1
+        right = current + 1
 
-    for i in range(iterations):
-        new_x = x + random.uniform(-step, step)
+        print(f"Iteration {i}: x = {current:.4f}, f(x) = {objective(current):.4f}")
+        i += 1
 
-        print(f"Iteration {i+1}: x = {x:.4f}, f(x) = {objective(x):.4f}")
+        if objective(left) > objective(current):
+            current = left
+        elif objective(right) > objective(current):
+            current = right
+        else:
+            return current, objective(current)
 
-        if objective(new_x) > objective(x):
-            x = new_x
+x = 0
 
-    print("\nFinal Solution:")
-    print(f"x = {x:.4f}, f(x) = {objective(x):.4f}")
+x_best, best_value = hill_climbing(x)
 
-hill_climbing(0.1, 0.05, 5)
+print("\nFinal Solution:")
+print(f"x = {x_best:.4f}, f(x) = {best_value:.4f}")
