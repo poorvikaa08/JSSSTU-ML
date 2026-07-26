@@ -4,20 +4,20 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 
 # Load Iris dataset
-X = load_iris().data
+data = load_iris().data
 
 # Number of clusters
 k = int(input("Enter number of clusters: "))
 
 # Initial centroids (first k points)
-centroids = X[:k]
+centroids = data[:k]
 
 # Repeat until convergence
 for _ in range(100):
     labels = []
 
     # Assign each point to nearest centroid
-    for point in X:
+    for point in data:
         distances = []
         for centroid in centroids:
             distances.append(np.linalg.norm(point - centroid))
@@ -30,7 +30,7 @@ for _ in range(100):
     new_centroids = []
 
     for i in range(k):
-        new_centroids.append(X[labels == i].mean(axis=0))
+        new_centroids.append(data[labels == i].mean(axis=0))
 
     new_centroids = np.array(new_centroids)
 
