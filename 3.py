@@ -18,40 +18,60 @@ plt.show()
 
 
 
-#Write a program to implement the A* algorithm
+# Write a program to implement the A* Algorithm
 
-graph = {
-    'A':[('B',6),('F',3)],
-    'B':[('C',3),('D',2)],
-    'C':[('D',1),('E',5)],
-    'D':[('C',1),('E',8)],
-    'E':[('I',5),('J',5)],
-    'F':[('G',1),('H',7)],
-    'G':[('I',3)],
-    'H':[('I',2)],
-    'I':[('E',5),('J',3)],
-    'J':[]
-}
+graph = {}
 
-h = {'A':10,'B':8,'C':5,'D':7,'E':3,'F':6,'G':5,'H':3,'I':1,'J':0}
+n = int(input("Enter number of nodes: "))
+
+for i in range(n):
+    node = input(f"\nEnter node {i+1}: ")
+    m = int(input(f"Enter number of neighbours of {node}: "))
+
+    graph[node] = []
+
+    for j in range(m):
+        nbr = input("Neighbour: ")
+        cost = int(input("Cost: "))
+        graph[node].append((nbr, cost))
+
+# Heuristic values
+h = {}
+
+print("\nEnter heuristic values:")
+
+for node in graph:
+    h[node] = int(input(f"h({node}) = "))
+
+start = input("\nEnter Start Node: ")
+goal = input("Enter Goal Node: ")
+
 
 def astar(start, goal):
-    open = [(0, start, [start])]
+    open_list = [(0, start, [start])]
     visited = set()
 
-    while open:
-        open.sort()
-        cost, node, path = open.pop(0)
+    while open_list:
+        open_list.sort()
+        cost, node, path = open_list.pop(0)
 
         if node == goal:
-            return path
+            return path, cost
 
         if node not in visited:
             visited.add(node)
 
             for nbr, c in graph.get(node, []):
-                open.append((cost + c + h[nbr], nbr, path + [nbr]))
+                if nbr not in visited:
+                    open_list.append((cost + c + h[nbr], nbr, path + [nbr]))
 
-    return None
+    return None, None
 
-print("Path:", astar('A', 'J'))
+
+path, cost = astar(start, goal)
+
+if path:
+    print("\nPath:", path)
+    print("Cost:", cost)
+else:
+    print("Goal not reachable.")

@@ -38,10 +38,18 @@ def alphabeta(depth, nodeIndex, maximizingPlayer, values, alpha, beta):
                 break
         return best
 
-# Example tree with depth 3 and 8 terminal nodes
-values = [3, 5, 2, 9, 12, 5, 23, 23]
 
-# Start the Alpha-Beta Pruning algorithm
+# Example tree with depth 3 and 8 terminal nodes
+# values = [3, 5, 2, 9, 12, 5, 23, 23]
+
+# print("Enter the 8 terminal node values:")
+
+# for i in range(8):
+#     value = int(input(f"Value {i+1}: "))
+#     values.append(value)
+
+values = list(map(int, input("Enter the 8 terminal node values (space-separated): ").split()))
+
 result = alphabeta(0, 0, True, values, float('-inf'), float('inf'))
 print("The optimal value is:", result)
 
