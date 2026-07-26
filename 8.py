@@ -44,7 +44,7 @@ print("Centroids:")
 print(centroids)
 
 # Plot clusters
-plt.scatter(X[:,0], X[:,1], c=labels)
+plt.scatter(data[:,0], data[:,1], c=labels)
 
 # Plot centroids
 plt.scatter(centroids[:,0], centroids[:,1],
